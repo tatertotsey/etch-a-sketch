@@ -1,29 +1,46 @@
 let container = document.getElementsByClassName('container')[0];
 let clearButton = document.getElementById('clear-button');
 let cells = document.getElementsByClassName('squares');
+let colourPicker = document.getElementById('colour-picker');
+let gridSlider = document.getElementById('gridSlider');
+let valueSlider = document.getElementById('valueSlider');
+let sizeButton = document.getElementById('size-button');
+let defaultsize = 16;
 
-function createSquares(rows, columns) {
-    for (let i = 0; i < rows; i++) {
-        for (let k = 0; k < columns; k++) {
-            let squares = document.createElement('div');
-            container.append(squares);
-            squares.className = 'squares';
-            hover(squares);
-        }
+function setupGrid(size) {
+    container.innerHTML = '';
+    container.style.gridTemplateColumns = (`repeat(${size}, 1fr`);
+    container.style.gridTemplateRows = (`repeat(${size}, 1fr`);
+
+    for (let i = 0; i < size * size; i++) {
+
+        let squares = document.createElement('div');
+        container.append(squares);
+        squares.className = 'squares';
+        hover(squares);
     }
 }
 
-createSquares(16, 16);
-
-function hover(cells) {
-    cells.addEventListener('mouseover', function (e) {
-        e.target.style.backgroundColor = 'black';        
+function hover(cell) {
+    cell.addEventListener('mouseover', function (e) {
+        e.target.style.backgroundColor = colourPicker.value;
     })
-} 
+}
 
 clearButton.onclick = function removeColor() {
-
     for (const element of cells) {
         element.setAttribute('style', 'backgroundColor=antiquewhite');
     }
 }
+
+gridSlider.onmousemove = function changeValue(e) {
+    let slidervalue = e.target.value;
+    valueSlider.innerText = `${slidervalue} x ${slidervalue}`;
+    defaultsize = slidervalue;
+    setupGrid(defaultsize);
+
+}
+setupGrid(defaultsize);
+
+
+
