@@ -7,6 +7,10 @@ let valueSlider = document.getElementById('valueSlider');
 let sizeButton = document.getElementById('size-button');
 let defaultsize = 16;
 
+let mouseDown = false
+document.body.onmousedown = () => (mouseDown = true)
+document.body.onmouseup = () => (mouseDown = false)
+
 function setupGrid(size) {
     container.innerHTML = '';
     container.style.gridTemplateColumns = (`repeat(${size}, 1fr`);
@@ -23,6 +27,9 @@ function setupGrid(size) {
 
 function hover(cell) {
     cell.addEventListener('mouseover', function (e) {
+        if(!mouseDown) {
+            return;
+        }
         e.target.style.backgroundColor = colourPicker.value;
     })
 }
